@@ -12,7 +12,7 @@ const TodoItem = ({ item, onUpdate }: TodoItemProps) => {
     const newStatus = !isCompleted;
     setIsCompleted(newStatus);
 
-    await fetch(`http://localhost:6743/api/todos/${item.id}`, {
+    await fetch(`https://crudik-backend.onrender.com/api/todos/${item.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isCompleted: newStatus }),
@@ -22,7 +22,7 @@ const TodoItem = ({ item, onUpdate }: TodoItemProps) => {
   };
 
   const handleDelete = async () => {
-    await fetch(`http://localhost:6743/api/todos/${item.id}`, {
+    await fetch(`https://crudik-backend.onrender.com/api/todos/${item.id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id: item.id }),

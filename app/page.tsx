@@ -10,7 +10,7 @@ export default function Home() {
 
   const fetchTodos = async () => {
     try {
-      const res = await fetch("https://crudik-backend.vercel.app/api/todos");
+      const res = await fetch("https://crudik-backend.onrender.com/api/todos");
       const data = await res.json();
       setTodos(data);
     } catch (error) {

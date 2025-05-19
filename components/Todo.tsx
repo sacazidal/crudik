@@ -12,7 +12,7 @@ const Todo = ({ onAdd }: TodoProps) => {
     e.preventDefault();
     if (!title.trim()) return;
 
-    await fetch("http://localhost:6743/api/todos", {
+    await fetch("https://crudik-backend.onrender.com/api/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title }),

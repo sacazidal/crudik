@@ -9,9 +9,13 @@ export default function Home() {
   const [todos, setTodos] = useState<TodoType[]>([]);
 
   const fetchTodos = async () => {
-    const res = await fetch("http://localhost:6743/api/todos");
-    const data = await res.json();
-    setTodos(data);
+    try {
+      const res = await fetch("https://crudik-backend.vercel.app/api/todos");
+      const data = await res.json();
+      setTodos(data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
   };
 
   useEffect(() => {

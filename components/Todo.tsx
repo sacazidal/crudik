@@ -7,19 +7,28 @@ import { Button } from "./ui/button";
 
 const Todo = ({ onAdd }: TodoProps) => {
   const [title, setTitle] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title.trim()) return;
+    try {
+      e.preventDefault();
+      if (!title.trim()) return;
 
-    await fetch("https://crudik-backend.onrender.com/api/todos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title }),
-    });
+      setLoading(true);
 
-    setTitle("");
-    onAdd();
+      await fetch("https://crudik-backend.onrender.com/api/todos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title }),
+      });
+
+      setTitle("");
+      onAdd();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,12 +40,23 @@ const Todo = ({ onAdd }: TodoProps) => {
         placeholder="Новая задача"
         className="w-full p-2 border rounded-sm md:rounded-lg md:placeholder:text-base placeholder:text-sm md:h-9 h-7"
       />
-      <Button
-        type="submit"
-        className="mt-2 md:h-full h-7 w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 md:text-base text-sm"
-      >
-        Добавить
-      </Button>
+      {loading ? (
+        <Button
+          type="submit"
+          className="mt-2 md:h-full h-7 w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 md:text-base text-sm"
+          disabled={loading}
+        >
+          Добавляю...
+        </Button>
+      ) : (
+        <Button
+          type="submit"
+          className="mt-2 md:h-full h-7 w-full bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 md:text-base text-sm"
+          disabled={loading}
+        >
+          Добавить
+        </Button>
+      )}
     </form>
   );
 };
